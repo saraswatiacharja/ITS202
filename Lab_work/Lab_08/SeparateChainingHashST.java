@@ -1,4 +1,5 @@
-import java.util. *;
+import java.util.*;
+
 public class SeparateChainingHashST<Key, Value> {
     private static final int INIT_CAPACITY = 4;
 
@@ -21,26 +22,25 @@ public class SeparateChainingHashST<Key, Value> {
         st = (SequentialSearchST<Key, Value>[]) new SequentialSearchST[m];
         for (int i = 0; i < m; i++)
             st[i] = new SequentialSearchST<Key, Value>();
-
     } 
 
     // resize the hash table to have the given number of chains,
     // rehashing all of the keys
     private void resize(int chains) {
-         SeparateChainingHashST<Key, Value> newest = new SeparateChainingHashST<Key, Value>(chains);
+        SeparateChainingHashST<Key, Value> temp = new SeparateChainingHashST<Key, Value>(chains);
         for (int i = 0; i < m; i++) {
             for (Key key : st[i].keys()) {
-                newest.put(key, st[i].get(key));
+                temp.put(key, st[i].get(key));
             }
         }
-        this.m  = newest.m;
-        this.n  = newest.n;
-        this.st = newest.st;
+        this.m  = temp.m;
+        this.n  = temp.n;
+        this.st = temp.st;
     }
 
-    // // hash function for keys - returns value between 0 and m-1
+    // hash function for keys - returns value between 0 and m-1
     private int hashTextbook(Key key) {
-            return (key.hashCode() & 0x7fffffff) % m;
+        return (key.hashCode() & 0x7fffffff) % m;
     }
 
     private int hash(Key key) {
@@ -48,13 +48,14 @@ public class SeparateChainingHashST<Key, Value> {
         h ^= (h >>> 20) ^ (h >>> 12) ^ (h >>> 7) ^ (h >>> 4);
         return h & (m-1);
     }
+
     /**
      * Returns the number of key-value pairs in this symbol table.
      *
      * @return the number of key-value pairs in this symbol table
      */
     public int size() {
-       return n;
+        return n;
     } 
 
     /**
@@ -64,9 +65,8 @@ public class SeparateChainingHashST<Key, Value> {
      *         {@code false} otherwise
      */
     public boolean isEmpty() {
-        if(size()==0){
+        if (size() == 0)
             return true;
-        }
         return false;
     }
 
@@ -79,7 +79,7 @@ public class SeparateChainingHashST<Key, Value> {
      * @throws IllegalArgumentException if {@code key} is {@code null}
      */
     public boolean contains(Key key) {
-        if (key == null) throw new IllegalArgumentException("Key should not be null");
+        if (key == null) throw new IllegalArgumentException("argument to contains() is null");
         return get(key) != null;
     } 
 
@@ -92,9 +92,7 @@ public class SeparateChainingHashST<Key, Value> {
      * @throws IllegalArgumentException if {@code key} is {@code null}
      */
     public Value get(Key key) {
-        if(key == null){
-            throw new IllegalArgumentException("The key should not be null");
-        }
+        if (key == null) throw new IllegalArgumentException("argument to get() is null");
         int i = hash(key);
         return st[i].get(key);
     } 
@@ -153,13 +151,13 @@ public class SeparateChainingHashST<Key, Value> {
         }
         return arr;
     } 
-
-    // return keys in symbol table as an Iterable
     /**
      * Unit tests the {@code SeparateChainingHashST} data type.
      *
      * @param args the command-line arguments
      */
-   
+    public static void main(String[] args) { 
+        SeparateChainingHashST<String, Integer> st = new SeparateChainingHashST<String, Integer>();
+    }
 
-}  
+}
